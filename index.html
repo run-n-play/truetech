@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrueTech CNC | Precision. Performance. TrueTech.</title>
+<meta name="description" content="TrueTech CNC — precision CNC milling, turning, prototyping, welding, and laser engraving in Anderson, SC. Request a quote today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#040507;--panel:#0c0e11;--panel2:#12151a;--gray:#4a4e4f;
+  --red:#bf0003;--blue:#31527b;--light:#f4f5f6;--line:rgba(255,255,255,.10);--muted:#9aa0a6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:#e9ebee;font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;line-height:1.02;text-transform:uppercase}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.accent{color:var(--red)}
+.eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:3px;font-size:.85rem;color:var(--red)}
+header{position:sticky;top:0;z-index:100;background:rgba(4,5,7,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:96px}
+.logo{display:flex;align-items:center;height:74px}
+.logo img{height:74px;width:auto}
+.menu{display:flex;gap:30px;align-items:center;font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:1.05rem}
+.menu a{color:#cfd3d7;transition:color .2s}
+.menu a:hover{color:#fff}
+.btn{display:inline-block;background:var(--red);color:#fff;font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:12px 26px;font-size:1rem;border:none;cursor:pointer;transition:.2s;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.btn:hover{background:#e10004;transform:translateY(-1px)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.08)}
+.hamb{display:none;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
+.hero{position:relative;overflow:hidden;padding:120px 0 100px;background:linear-gradient(180deg,#06070a,#040507)}
+.hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:url('assets/images/hero/haas-panel.jpg');background-size:cover;background-position:center right;opacity:.55}
+.hero .veil{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#040507 0%,rgba(4,5,7,.90) 32%,rgba(4,5,7,.55) 62%,rgba(4,5,7,.30) 100%),radial-gradient(900px 480px at 78% -10%,rgba(49,82,123,.28),transparent 60%)}
+.hero::after{content:"";position:absolute;top:-20%;right:7%;width:230px;height:150%;z-index:1;background:linear-gradient(180deg,var(--gray) 0 40%,var(--red) 40% 60%,var(--gray) 60% 100%);transform:skewX(-18deg);opacity:.24;pointer-events:none}
+.hero .wrap{position:relative;z-index:2}
+.hero h1{font-size:clamp(2.9rem,7vw,5.8rem);color:#fff;margin:18px 0 10px}
+.hero .sub{font-family:'Barlow Condensed';font-weight:500;font-size:clamp(1.3rem,3vw,2rem);color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.hero .sub em{color:var(--red);font-style:normal}
+.hero p.lead{max-width:620px;color:#c3c8cd;font-size:1.1rem;margin:28px 0 36px}
+.hero .cta{display:flex;gap:16px;flex-wrap:wrap}
+.badges{display:flex;flex-wrap:wrap;gap:14px 34px;margin-top:56px;padding-top:32px;border-top:1px solid var(--line)}
+.badges div{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#b9bec3;font-size:.98rem;display:flex;align-items:center;gap:9px}
+.badges div::before{content:"";width:9px;height:9px;background:var(--red);transform:rotate(45deg);flex:0 0 9px}
+.mission{position:relative;overflow:hidden;padding:74px 0;background:linear-gradient(90deg,#0a0b0d,#050608)}
+.mission::before{content:"";position:absolute;top:-25%;left:6%;width:120px;height:150%;background:linear-gradient(180deg,var(--gray) 0 45%,var(--red) 45% 65%,var(--gray) 65% 100%);transform:skewX(-20deg);opacity:.20;pointer-events:none}
+.mission .wrap{position:relative;z-index:2;max-width:960px;text-align:center}
+.mission .eyebrow{margin-bottom:16px;display:block}
+.mission p{font-family:'Barlow Condensed';font-weight:500;font-size:clamp(1.5rem,3.2vw,2.35rem);line-height:1.28;color:#e9ebee;letter-spacing:.3px}
+.mission p b{color:var(--red);font-weight:700}
+section{padding:90px 0}
+.light-sec{background:var(--light);color:#16181b}
+.banner{display:flex;align-items:stretch;background:linear-gradient(90deg,#0a0b0d,#050608);border:1px solid var(--line);margin-bottom:44px;overflow:hidden;min-height:120px}
+.light-sec .banner{border-color:rgba(0,0,0,.12)}
+.banner-logo{display:flex;align-items:center;padding:18px 26px;flex:0 0 auto}
+.banner-logo img{height:74px;width:auto}
+.banner-slash{flex:0 0 90px;position:relative;align-self:stretch}
+.banner-slash::before,.banner-slash::after{content:"";position:absolute;top:-10%;height:120%;width:16px;transform:skewX(-20deg)}
+.banner-slash::before{left:34px;background:var(--gray)}
+.banner-slash::after{left:58px;background:var(--red)}
+.banner-title{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 34px;text-align:right}
+.banner-title h2{font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;font-size:clamp(1.8rem,4.5vw,3.4rem);color:#e9ebee;letter-spacing:1px;line-height:.95}
+.banner-title .tag{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:3px;font-size:clamp(.7rem,1.6vw,.95rem);color:var(--muted);margin-top:8px}
+.sec-intro{max-width:760px;margin-bottom:44px}
+.sec-intro p{color:var(--muted);font-size:1.05rem}
+.light-sec .sec-intro p{color:#55595e}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.cap{background:var(--panel);border:1px solid var(--line);padding:30px 26px 32px;position:relative;transition:.25s;overflow:hidden}
+.cap::before{content:"";position:absolute;left:0;top:0;height:100%;width:4px;background:var(--red);transform:scaleY(0);transform-origin:top;transition:.25s}
+.cap:hover{transform:translateY(-4px);border-color:rgba(191,0,3,.5)}
+.cap:hover::before{transform:scaleY(1)}
+.cap .num{font-family:'Barlow Condensed';font-weight:700;font-size:1rem;color:var(--red);letter-spacing:2px}
+.cap h3{font-size:1.55rem;color:#fff;margin:10px 0 12px}
+.cap p{color:var(--muted);font-size:.98rem}
+.stats{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:56px 0}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.stat .n{font-family:'Barlow Condensed';font-weight:700;font-size:3rem;color:var(--red);line-height:1}
+.stat .l{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#c6cbd0;font-size:.95rem;margin-top:6px}
+.cta-band{background:radial-gradient(700px 380px at 20% 30%,rgba(191,0,3,.18),transparent 60%),radial-gradient(700px 380px at 80% 70%,rgba(49,82,123,.22),transparent 60%),#06070a;text-align:center}
+.cta-band h2{font-size:clamp(2rem,4.5vw,3.2rem);color:#fff;margin-bottom:16px}
+.cta-band p{color:#c3c8cd;max-width:560px;margin:0 auto 30px;font-size:1.08rem}
+footer{background:#020304;border-top:1px solid var(--line);padding:56px 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.foot-logo img{height:60px;width:auto;margin-bottom:16px}
+.foot-grid h5{font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--red);font-size:1rem;margin-bottom:16px}
+.foot-grid a,.foot-grid p{color:var(--muted);font-size:.95rem;display:block;margin-bottom:8px}
+.foot-grid a:hover{color:#fff}
+.foot-brand p{max-width:300px}
+.copyright{border-top:1px solid var(--line);padding-top:22px;color:#6b7075;font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+/* equipment cards with photos */
+.equip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.equip{background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:.25s}
+.equip:hover{transform:translateY(-4px);border-color:rgba(191,0,3,.5)}
+.equip .img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#15181d;display:block}
+.equip .body{padding:16px 20px 20px}
+.equip h3{font-size:1.3rem;color:#fff;margin-bottom:5px}
+.equip .cat{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--red);font-size:.82rem}
+.equip .body p{color:var(--muted);font-size:.92rem;margin-top:6px}
+.equip-group{display:block;width:fit-content;font-size:1.6rem;color:#fff;margin:48px 0 18px;padding-bottom:8px;border-bottom:2px solid var(--red)}
+#equipList > .equip-group:first-child{margin-top:0}
+.equip .img.ph{display:flex;align-items:center;justify-content:center;color:#3a3e43;font-family:'Barlow Condensed';font-weight:600;letter-spacing:2px;text-transform:uppercase}
+/* team */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.member{background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:.25s}
+.member:hover{transform:translateY(-4px);border-color:rgba(191,0,3,.5)}
+.member .ph{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:#15181d;border-bottom:3px solid var(--gray)}
+.member.owner .ph{border-bottom-color:var(--red)}
+.member .ini{display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:700;font-size:3.4rem;letter-spacing:2px;color:#2e3237}
+.member .mb{padding:16px 20px 20px}
+.member h4{font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;font-size:1.35rem;color:#fff;letter-spacing:.5px;line-height:1.1}
+.member .role{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--red);font-size:.85rem;margin-top:4px}
+.member a{display:inline-block;color:var(--muted);font-size:.9rem;margin-top:8px;word-break:break-all}
+.member a:hover{color:#fff}
+/* parts gallery */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gitem{position:relative;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:#15181d}
+.gitem img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gitem:hover img{transform:scale(1.06)}
+.gitem .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 16px 12px;font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#fff;font-size:.95rem;background:linear-gradient(180deg,transparent,rgba(4,5,7,.85));opacity:0;transition:opacity .25s}
+.gitem:hover .cap{opacity:1}
+@media(max-width:980px){.cap-grid{grid-template-columns:repeat(2,1fr)}.stats .wrap{grid-template-columns:repeat(2,1fr);gap:34px}.foot-grid{grid-template-columns:1fr 1fr}.equip-grid{grid-template-columns:repeat(2,1fr)}.gallery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.menu{display:none;position:absolute;top:96px;left:0;right:0;background:var(--panel);flex-direction:column;gap:0;padding:10px 0;border-bottom:1px solid var(--line)}.menu.open{display:flex}.menu a{padding:12px 24px;width:100%}.menu .btn{margin:10px 24px;text-align:center}.hamb{display:block}.cap-grid{grid-template-columns:1fr}.equip-grid{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}.banner{flex-direction:column;min-height:0}.banner-slash{display:none}.banner-logo{justify-content:center;padding:22px 20px 6px}.banner-title{text-align:center;padding:6px 20px 22px}.foot-grid{grid-template-columns:1fr}section{padding:64px 0}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top"><img src="assets/logo-light.svg" alt="TrueTech CNC"></a>
+    <nav class="menu" id="menu">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#equipment">Equipment</a>
+      <a href="#work">Our Work</a>
+      <a href="#team">Team</a>
+      <a href="store.html">Shop</a>
+      <a href="#quote" class="btn">Request a Quote</a>
+    </nav>
+    <button class="hamb" id="hamb" aria-label="Menu">&#9776;</button>
+  </div>
+</header>
+<span id="top"></span>
+<section class="hero">
+  <div class="veil"></div>
+  <div class="wrap">
+    <div class="eyebrow">Precision Machining &middot; Anderson, SC</div>
+    <h1>Precision.<br>Performance.<br><span class="accent">TrueTech.</span></h1>
+    <div class="sub">From <em>Raw Material</em> to <em>Finished Part.</em></div>
+    <p class="lead">A full-service CNC machine shop delivering precision milling, turning, prototyping, welding, and laser engraving under one roof &mdash; moving your project from concept to production with a relentless focus on getting the details right.</p>
+    <div class="cta">
+      <a href="#quote" class="btn">Request a Quote</a>
+      <a href="#capabilities" class="btn ghost">Our Capabilities</a>
+    </div>
+    <div class="badges">
+      <div>Prototype to Production</div>
+      <div>Tight-Tolerance Work</div>
+      <div>Contract Programming</div>
+      <div>Made in the USA</div>
+    </div>
+  </div>
+</section>
+<section class="mission">
+  <div class="wrap">
+    <div class="eyebrow">Our Mission</div>
+    <p>To serve as a comprehensive manufacturing partner by delivering precision machining, prototyping, and fabrication under one roof. We streamline the path from concept to production with a <b>relentless focus on getting the details right.</b></p>
+  </div>
+</section>
+<section id="capabilities">
+  <div class="wrap">
+    <div class="banner">
+      <div class="banner-logo"><img src="assets/logo-light.svg" alt="TrueTech CNC"></div>
+      <div class="banner-slash"></div>
+      <div class="banner-title"><h2>Our Capabilities</h2><div class="tag">Precision. Performance. TrueTech.</div></div>
+    </div>
+    <div class="sec-intro"><p>A full-service machine shop built to handle your project from first prototype through full production runs.</p></div>
+    <div class="cap-grid">
+      <div class="cap"><div class="num">01</div><h3>Prototyping</h3><p>Fast, accurate prototypes to prove out your design before committing to a full run.</p></div>
+      <div class="cap"><div class="num">02</div><h3>Production Runs</h3><p>Small and large production quantities held to tight tolerances with repeatable quality.</p></div>
+      <div class="cap"><div class="num">03</div><h3>CAD Design</h3><p>In-house design support to refine your part for manufacturability, performance, and cost.</p></div>
+      <div class="cap"><div class="num">04</div><h3>Contract Programming</h3><p>Expert CAM programming delivered on contract for milling and turning applications.</p></div>
+      <div class="cap"><div class="num">05</div><h3>On-Site Assistance</h3><p>On-site contract support to keep your team moving and your machines producing.</p></div>
+      <div class="cap"><div class="num">06</div><h3>Bead Blasting</h3><p>Consistent surface finishing and cleaning for a clean, uniform cosmetic result.</p></div>
+      <div class="cap"><div class="num">07</div><h3>Welding</h3><p>MIG and TIG welding for fabrication, repair, and finished weldments.</p></div>
+      <div class="cap"><div class="num">08</div><h3>Laser Engraving</h3><p>Laser and deep engraving for part marking, serialization, and custom detail work.</p></div>
+    </div>
+  </div>
+</section>
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="n" id="statCnc">5</div><div class="l">CNC Machines</div></div>
+    <div class="stat"><div class="n" id="statTurn">2</div><div class="l">Turning Centers</div></div>
+    <div class="stat"><div class="n">1</div><div class="l">Roof, Full Service</div></div>
+    <div class="stat"><div class="n">100%</div><div class="l">Inspected</div></div>
+  </div>
+</div>
+<section id="equipment">
+  <div class="wrap">
+    <div class="banner">
+      <div class="banner-logo"><img src="assets/logo-light.svg" alt="TrueTech CNC"></div>
+      <div class="banner-slash"></div>
+      <div class="banner-title"><h2>Our Equipment</h2><div class="tag">Precision. Performance. TrueTech.</div></div>
+    </div>
+    <div class="sec-intro"><p>Modern milling, turning, finishing, and inspection equipment &mdash; all under one roof in Anderson, SC.</p></div>
+    <div id="equipList"><p class="sec-intro" style="color:var(--muted)">Loading equipment&hellip;</p></div>
+  </div>
+</section>
+<section id="work" class="light-sec">
+  <div class="wrap">
+    <div class="banner">
+      <div class="banner-logo"><img src="assets/logo-light.svg" alt="TrueTech CNC"></div>
+      <div class="banner-slash"></div>
+      <div class="banner-title"><h2>Our Work</h2><div class="tag">Precision. Performance. TrueTech.</div></div>
+    </div>
+    <div class="sec-intro"><p>A sample of parts machined in-house &mdash; from single prototypes to full production runs.</p></div>
+    <div class="gallery">
+      <div class="gitem"><img src="assets/images/parts/threaded-stainless.jpg" alt="Threaded stainless parts"><div class="cap">Threaded Stainless Components</div></div>
+      <div class="gitem"><img src="assets/images/parts/turned-rings-batch.jpg" alt="Turned rings production run"><div class="cap">Production Turned Rings</div></div>
+      <div class="gitem"><img src="assets/images/parts/aluminum-housings.jpg" alt="Aluminum housings"><div class="cap">Milled Aluminum Housings</div></div>
+      <div class="gitem"><img src="assets/images/parts/shift-forks.jpg" alt="Aluminum shift forks"><div class="cap">Precision Shift Forks</div></div>
+      <div class="gitem"><img src="assets/images/parts/machined-brackets.jpg" alt="Machined brackets"><div class="cap">Machined Brackets</div></div>
+      <div class="gitem"><img src="assets/images/parts/polished-shafts.jpg" alt="Polished shafts"><div class="cap">Turned &amp; Polished Shafts</div></div>
+      <div class="gitem"><img src="assets/images/parts/shafts-and-bases.jpg" alt="Shafts and threaded bases"><div class="cap">Shafts &amp; Threaded Bases</div></div>
+    </div>
+  </div>
+</section>
+<section id="about">
+  <div class="wrap">
+    <div class="banner">
+      <div class="banner-logo"><img src="assets/logo-light.svg" alt="TrueTech CNC"></div>
+      <div class="banner-slash"></div>
+      <div class="banner-title"><h2>Who We Are</h2><div class="tag">Precision. Performance. TrueTech.</div></div>
+    </div>
+    <div class="sec-intro"><p style="font-size:1.15rem">TrueTech CNC is a precision machining shop in Anderson, South Carolina. We combine modern milling and turning equipment with hands-on shop-floor experience to deliver parts that meet spec &mdash; the first time and every time. From a single prototype to a full production run, our team treats your project like it&rsquo;s our own.</p></div>
+    <h3 class="equip-group" id="team">Meet the Team</h3>
+    <div class="team-grid" id="teamList"></div>
+    <a href="#quote" class="btn" style="margin-top:40px">Get in Touch</a>
+  </div>
+</section>
+<section id="quote" class="cta-band">
+  <div class="wrap">
+    <div class="eyebrow" style="display:block;margin-bottom:14px">Start a Project</div>
+    <h2>Ready to Make Something Precise?</h2>
+    <p>Send us your part, drawings, or an idea. Our team will get back to you with a quote &mdash; typically within 1&ndash;2 business days.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="mailto:jacobd@truetechcnc.com" class="btn">Email Us</a>
+      <a href="tel:8647720583" class="btn ghost">(864) 772-0583</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="foot-logo"><img src="assets/logo-light.svg" alt="TrueTech CNC"></div>
+        <p>Precision CNC machining, prototyping, and production. Precision. Performance. TrueTech.</p>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#about">About</a>
+        <a href="#team">Team</a>
+        <a href="store.html">Shop</a>
+        <a href="#quote">Contact</a>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <p>424 McGee Rd<br>Anderson, SC</p>
+        <a href="tel:8647720583">(864) 772-0583</a>
+        <a href="mailto:jacobd@truetechcnc.com">jacobd@truetechcnc.com</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>&copy; 2026 TrueTech CNC. All rights reserved.</span>
+      <span>Precision. Performance. TrueTech.</span>
+    </div>
+  </div>
+</footer>
+<script>
+  const hamb=document.getElementById('hamb'),menu=document.getElementById('menu');
+  hamb.addEventListener('click',()=>menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function placeholder(){const d=document.createElement('div');d.className='img ph';d.textContent='Photo coming soon';return d;}
+  function renderSite(){
+    const D=window.TRUETECH_DATA;
+    if(!D){document.getElementById('equipList').innerHTML='<p style="color:var(--muted)">Equipment list unavailable.</p>';return;}
+    const groups=D.groups||[],machines=D.machines||[];
+    // equipment, grouped in the saved order
+    let html='';
+    groups.forEach(g=>{
+      const items=machines.filter(m=>m.group===g.name);
+      if(!items.length)return;
+      html+=`<h3 class="equip-group">${esc(g.name)}</h3><div class="equip-grid">`+items.map(m=>
+        `<div class="equip">${m.photo?`<img class="img" loading="lazy" src="${esc(m.photo)}" style="object-position:${esc(m.photoPos||'center')}" alt="${esc(m.name)}">`:'<div class="img ph">Photo coming soon</div>'}<div class="body"><div class="cat">${esc(m.cat||g.name)}</div><h3>${esc(m.name)}</h3>${m.desc?`<p>${esc(m.desc)}</p>`:''}</div></div>`
+      ).join('')+'</div>';
+    });
+    document.getElementById('equipList').innerHTML=html;
+    document.querySelectorAll('#equipList img.img').forEach(img=>{
+      const fail=()=>img.replaceWith(placeholder());
+      img.addEventListener('error',fail);
+      if(img.complete&&img.naturalWidth===0)fail();
+    });
+    // stats
+    const cncGroups=groups.filter(g=>g.cnc).map(g=>g.name);
+    document.getElementById('statCnc').textContent=machines.filter(m=>cncGroups.includes(m.group)).length;
+    document.getElementById('statTurn').textContent=machines.filter(m=>m.group==='Turning').length;
+    // team
+    const team=D.team||[];
+    const tl=document.getElementById('teamList');
+    const ini=n=>esc(String(n||'').split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase());
+    const anyPhoto=team.some(p=>p.photo);
+    tl.innerHTML=team.map(p=>`<div class="member${p.owner?' owner':''}">${!anyPhoto?'':p.photo?`<img class="ph" loading="lazy" src="${esc(p.photo)}" style="object-position:${esc(p.photoPos||'center 25%')}" alt="${esc(p.name)}" data-ini="${ini(p.name)}">`:`<div class="ph ini">${ini(p.name)}</div>`}<div class="mb"><h4>${esc(p.name)}</h4><div class="role">${esc(p.role)}</div>${p.email?`<a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`:''}</div></div>`).join('');
+    tl.querySelectorAll('img.ph').forEach(img=>{
+      const fail=()=>{const d=document.createElement('div');d.className='ph ini';d.textContent=img.dataset.ini;img.replaceWith(d);};
+      img.addEventListener('error',fail);if(img.complete&&img.naturalWidth===0)fail();
+    });
+    if(!team.length){tl.style.display='none';document.getElementById('team').style.display='none';}
+  }
+  // load data.js (works from GitHub Pages and when opened straight off disk); cache-busted per minute
+  (function(){
+    const sc=document.createElement('script');
+    sc.src='data.js?v='+Math.floor(Date.now()/60000);
+    sc.onload=renderSite;sc.onerror=renderSite;
+    document.head.appendChild(sc);
+  })();
+</script>
+</body>
+</html>

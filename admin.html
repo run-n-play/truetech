@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrueTech CNC — Content Admin</title>
+<style>
+:root{
+  --black:#040507;--panel:#0c0e11;--panel2:#14171c;--gray:#4a4e4f;
+  --red:#bf0003;--blue:#31527b;--green:#2f7a49;--line:rgba(255,255,255,.12);--muted:#9aa0a6;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+body{background:var(--black);color:#e9ebee;line-height:1.5;padding-bottom:60px}
+header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:38px;height:38px}
+.brand b{font-size:1.25rem;letter-spacing:1px}.brand span{color:var(--muted);font-size:.72rem;letter-spacing:2px;display:block}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.wrap{max-width:1080px;margin:0 auto;padding:24px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:22px;flex-wrap:wrap}
+.tab{padding:12px 20px;background:none;border:none;color:var(--muted);font-weight:600;font-size:1rem;cursor:pointer;border-bottom:3px solid transparent}
+.tab.active{color:#fff;border-bottom-color:var(--red)}
+.btn{background:var(--red);color:#fff;border:none;padding:10px 18px;font-weight:700;cursor:pointer;border-radius:4px;font-size:.92rem;transition:.15s;white-space:nowrap}
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:#dfe3e7}
+.btn.ghost:hover{background:rgba(255,255,255,.07)}
+.btn.blue{background:var(--blue)}
+.btn.green{background:var(--green)}
+.btn.sm{padding:6px 11px;font-size:.82rem}
+.btn.icon{padding:6px 9px;font-size:.82rem;min-width:32px}
+.btn.danger{background:transparent;border:1px solid rgba(191,0,3,.5);color:#ff6b6d}
+.btn.danger:hover{background:rgba(191,0,3,.15)}
+.pill{font-size:.78rem;padding:4px 10px;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+.pill.dirty{border-color:rgba(230,160,40,.6);color:#f0b54a}
+.pill.ok{border-color:rgba(47,122,73,.7);color:#6fe08f}
+.group-h{font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--red);margin:22px 0 10px}
+.group-h:first-child{margin-top:0}
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;align-items:center;gap:14px}
+.row .thumb{width:96px;height:72px;object-fit:cover;border-radius:5px;background:var(--panel2);flex:0 0 96px;display:flex;align-items:center;justify-content:center;color:#3d4247;font-size:.7rem;text-align:center}
+.row .info{flex:1;min-width:0}
+.row h3{font-size:1.05rem}
+.row .sub{color:var(--red);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.row .desc{color:var(--muted);font-size:.86rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.tag{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:12px;margin-left:6px;vertical-align:middle}
+.tag.new{background:rgba(49,82,123,.35);color:#9cc3ee}
+.tag.in{background:rgba(49,123,73,.25);color:#6fe08f}
+.tag.out{background:rgba(191,0,3,.2);color:#ff7a7c}
+.empty{color:var(--muted);text-align:center;padding:44px 20px;border:1px dashed var(--line);border-radius:8px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-start;justify-content:center;z-index:50;overflow-y:auto;padding:36px 16px}
+.modal-bg.open{display:flex}
+.modal{background:var(--panel2);border:1px solid var(--line);border-radius:10px;width:100%;max-width:560px;padding:24px}
+.modal h2{margin-bottom:16px;font-size:1.3rem}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.84rem;font-weight:600;color:#c6cbd0;margin-bottom:6px}
+.field small{display:block;color:var(--muted);font-size:.78rem;margin-top:4px}
+.field input,.field textarea,.field select{width:100%;background:#0a0c0f;border:1px solid var(--line);color:#fff;padding:10px 12px;border-radius:5px;font-size:.94rem}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--red)}
+.field textarea{resize:vertical;min-height:76px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.checkline{display:flex;align-items:center;gap:9px}
+.checkline input{width:auto}
+.photo-prev{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px;background:#0a0c0f;border:1px solid var(--line);margin-bottom:8px;display:none}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.hint{background:rgba(49,82,123,.15);border:1px solid rgba(49,82,123,.5);border-radius:6px;padding:12px 15px;font-size:.88rem;color:#cdd6e0;margin-bottom:20px}
+.hint b{color:#fff}
+.hint.warn{background:rgba(230,160,40,.1);border-color:rgba(230,160,40,.45)}
+.log{background:#07080a;border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-family:ui-monospace,Consolas,monospace;font-size:.8rem;color:#b9c0c7;max-height:220px;overflow:auto;white-space:pre-wrap;margin-top:12px;display:none}
+@media(max-width:640px){.row{flex-wrap:wrap}.row .actions{width:100%;justify-content:flex-start}.row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 100 100" fill="none"><path d="M8 12 H92 L74 40 H60 V64 H40 V40 H26 L8 12Z" fill="#d7dadd"/><path d="M35 70 H65 L58 82 H42 L35 70Z" fill="#d7dadd"/></svg>
+    <div><b>TRUETECH</b><span>CONTENT ADMIN</span></div>
+  </div>
+  <div class="toolbar">
+    <span class="pill" id="state">Not loaded</span>
+    <input type="file" id="loadFile" accept=".js,.json" hidden>
+    <button class="btn ghost sm" onclick="document.getElementById('loadFile').click()" title="Open a data.js (or old data.json) from your PC">Open file…</button>
+    <button class="btn ghost sm" onclick="openSettings()">GitHub settings</button>
+    <button class="btn blue" onclick="downloadAll()" title="Save data.js (and any new photos) to your PC">Download</button>
+    <button class="btn green" id="pubBtn" onclick="publish()">Publish to website</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hint" id="hint"></div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="machines" onclick="switchTab('machines')">Machines</button>
+    <button class="tab" data-tab="team" onclick="switchTab('team')">Team</button>
+    <button class="tab" data-tab="clubs" onclick="switchTab('clubs')">Golf Clubs</button>
+    <button class="tab" data-tab="markers" onclick="switchTab('markers')">Markers</button>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px">
+    <h1 id="tabTitle" style="font-size:1.45rem">Machines</h1>
+    <button class="btn" onclick="openAdd()">+ Add <span id="addLabel">Machine</span></button>
+  </div>
+
+  <div id="list"></div>
+  <div class="log" id="log"></div>
+</div>
+
+<!-- ITEM MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h2 id="modalTitle">Add</h2>
+
+    <div id="photoBlock">
+      <img id="photoPrev" class="photo-prev" alt="">
+      <div class="field">
+        <label>Photo</label>
+        <input id="f_photo" type="file" accept="image/*">
+        <small>Shrunk automatically to web size before saving.</small>
+      </div>
+      <div class="field" id="posField">
+        <label>Photo focus (what part of the photo stays in frame)</label>
+        <select id="f_pos">
+          <option value="center 0%">Top</option>
+          <option value="center 25%">Upper</option>
+          <option value="center 40%">Slightly high</option>
+          <option value="center 50%" selected>Center</option>
+          <option value="center 75%">Lower</option>
+          <option value="center 100%">Bottom</option>
+        </select>
+      </div>
+      <button type="button" class="btn ghost sm" id="rmPhoto" onclick="removePhoto()" style="margin-bottom:14px">Remove photo</button>
+    </div>
+
+    <div class="field"><label id="nameLabel">Name</label><input id="f_name" type="text"></div>
+
+    <div id="machineFields">
+      <div class="field"><label>Section</label><select id="f_group"></select></div>
+      <div class="field"><label>Subtitle</label><input id="f_cat" type="text" placeholder="e.g. Milling · 4th Axis"><small>Small red line above the name.</small></div>
+    </div>
+
+    <div id="teamFields">
+      <div class="field"><label>Role / Title</label><input id="f_role" type="text" placeholder="e.g. Process Engineer"></div>
+      <div class="field"><label>Email (optional — shown on the website)</label><input id="f_email" type="email"></div>
+      <div class="field checkline"><input id="f_owner" type="checkbox"><label style="margin:0">Owner (red accent)</label></div>
+    </div>
+
+    <div class="field" id="descField"><label>Description</label><textarea id="f_desc"></textarea></div>
+
+    <div id="prodFields">
+      <div class="row2">
+        <div class="field"><label>Price</label><input id="f_price" type="text" placeholder="$450"></div>
+        <div class="field"><label>Stock quantity</label><input id="f_qty" type="number" min="0" placeholder="1"></div>
+      </div>
+      <div class="field checkline"><input id="f_instock" type="checkbox" checked><label style="margin:0">In stock / available</label></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="closeModal('modalBg')">Cancel</button>
+      <button class="btn" onclick="saveItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-bg" id="setBg">
+  <div class="modal">
+    <h2>GitHub settings</h2>
+    <div class="hint" style="margin-bottom:16px">Stored only in this browser on this PC. Needed for <b>Publish to website</b>. The token needs <b>Contents: Read and write</b> on the site repo only.</div>
+    <div class="row2">
+      <div class="field"><label>GitHub username / org</label><input id="s_owner" type="text" placeholder="your-username"></div>
+      <div class="field"><label>Repository</label><input id="s_repo" type="text" placeholder="truetech-cnc"></div>
+    </div>
+    <div class="field"><label>Branch</label><input id="s_branch" type="text" placeholder="main"></div>
+    <div class="field"><label>Access token</label><input id="s_token" type="password" placeholder="github_pat_…" autocomplete="off"></div>
+    <div id="setMsg" style="font-size:.86rem;color:var(--muted);min-height:1.3em"></div>
+    <div class="modal-actions">
+      <button class="btn ghost" onclick="clearSettings()">Forget token</button>
+      <button class="btn ghost" onclick="closeModal('setBg')">Close</button>
+      <button class="btn blue" onclick="testSettings()">Save &amp; test</button>
+    </div>
+  </div>
+</div>
+
+<!-- current published data when admin.html sits next to data.js -->
+<script src="data.js"></script>
+<script>
+/* ---------- state ---------- */
+const DEFAULT_GROUPS=[{name:'Milling',cnc:true},{name:'Turning',cnc:true},{name:'Inspection & Tooling',cnc:false}];
+let data={groups:DEFAULT_GROUPS.slice(),machines:[],team:[],clubs:[],markers:[]};
+let pending={};            // repo path -> dataURL of new photos not yet published
+let dirty=false, source='';
+let currentTab='machines', editId=null, photoVal='', photoPending=null;
+
+const LABEL={machines:'Machine',team:'Person',clubs:'Golf Club',markers:'Marker'};
+const TITLE={machines:'Machines',team:'Team',clubs:'Golf Clubs',markers:'Markers'};
+const $=id=>document.getElementById(id);
+
+/* ---------- helpers ---------- */
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+function slug(s){return (s||'item').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)||'item';}
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
+function settings(){return{owner:lsGet('tt_owner')||'',repo:lsGet('tt_repo')||'',branch:lsGet('tt_branch')||'main',token:lsGet('tt_token')||''};}
+function hasGH(){const s=settings();return !!(s.owner&&s.repo&&s.token);}
+function log(m){const l=$('log');l.style.display='block';l.textContent+=m+'\n';l.scrollTop=l.scrollHeight;}
+
+function setDirty(v){dirty=v;updateState();}
+function updateState(){
+  const st=$('state'),n=Object.keys(pending).length;
+  if(dirty){st.className='pill dirty';st.textContent='Unpublished changes'+(n?` · ${n} new photo${n>1?'s':''}`:'');}
+  else{st.className='pill ok';st.textContent=source?('Up to date · '+source):'Not loaded';}
+  $('hint').className='hint'+(hasGH()?'':' warn');
+  $('hint').innerHTML=hasGH()
+    ? `<b>Edit below, then click Publish to website.</b> Changes go live on the site about a minute after publishing. Source: ${esc(source||'—')}.`
+    : `<b>GitHub isn't set up in this browser yet.</b> You can still edit, then use <b>Download</b> and upload the files to GitHub by hand. Or open <b>GitHub settings</b> once and use <b>Publish to website</b> from then on.`;
+}
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
+
+function normalize(d){
+  const out={
+    groups:Array.isArray(d.groups)&&d.groups.length?d.groups:DEFAULT_GROUPS.slice(),
+    machines:d.machines||[],team:d.team||[],clubs:d.clubs||[],markers:d.markers||[]
+  };
+  // old data.json stored product photos inline — move them to files so data.js stays small
+  ['clubs','markers'].forEach(k=>out[k].forEach(p=>{
+    if(p.photo&&p.photo.startsWith('data:')){const path=`assets/images/products/${slug(p.name)}-${uid().slice(-5)}.jpg`;pending[path]=p.photo;p.photo=path;}
+  }));
+  ['machines','team','clubs','markers'].forEach(k=>out[k].forEach(it=>{if(!it.id)it.id=uid();}));
+  return out;
+}
+function parseDataText(txt){
+  const a=txt.indexOf('{'),b=txt.lastIndexOf('}');
+  if(a<0||b<a)throw new Error('No data found in file');
+  return JSON.parse(txt.slice(a,b+1));
+}
+function buildDataJs(){
+  return '// TrueTech CNC site content. Edit with admin.html, not by hand.\nwindow.TRUETECH_DATA = '+JSON.stringify(data,null,2)+';\n';
+}
+
+/* ---------- image handling ---------- */
+function imgSrc(path){
+  if(!path)return '';
+  if(pending[path])return pending[path];
+  return path;
+}
+function remoteSrc(path){
+  const s=settings();
+  return (s.owner&&s.repo)?`https://raw.githubusercontent.com/${s.owner}/${s.repo}/${s.branch||'main'}/${path}`:'';
+}
+// if the photo isn't on this PC, try the copy on GitHub
+function imgFallback(img){
+  const p=img.dataset.path,r=p&&remoteSrc(p);
+  if(r&&img.src!==r){img.src=r;return;}
+  img.replaceWith(Object.assign(document.createElement('div'),{className:'thumb',textContent:'no photo'}));
+}
+function resizeImage(file,max=1600,q=0.82){
+  return new Promise((res,rej)=>{
+    const img=new Image(),url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const s=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight));
+      const c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*s);c.height=Math.round(img.naturalHeight*s);
+      const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',q));
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('Could not read that image'));};
+    img.src=url;
+  });
+}
+
+/* ---------- rendering ---------- */
+function switchTab(t){
+  currentTab=t;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+  $('tabTitle').textContent=TITLE[t];$('addLabel').textContent=LABEL[t];render();
+}
+function thumb(it){
+  return it.photo?`<img class="thumb" src="${esc(imgSrc(it.photo))}" data-path="${esc(it.photo)}" style="object-position:${esc(it.photoPos||'center')}" onerror="imgFallback(this)" alt="">`:'<div class="thumb">no photo</div>';
+}
+function rowHtml(it){
+  const isNew=it.photo&&pending[it.photo]?'<span class="tag new">new photo</span>':'';
+  let sub='',desc='';
+  if(currentTab==='machines'){sub=it.cat||it.group;desc=it.desc;}
+  else if(currentTab==='team'){sub=it.role+(it.owner?' ★':'');desc=it.email;}
+  else{sub=it.price||'';desc=it.desc;}
+  const stock=(currentTab==='clubs'||currentTab==='markers')?(it.instock!==false?`<span class="tag in">In stock${it.qty?' · '+it.qty:''}</span>`:'<span class="tag out">Sold out</span>'):'';
+  return `<div class="row">${thumb(it)}
+    <div class="info"><h3>${esc(it.name)}${stock}${isNew}</h3>${sub?`<div class="sub">${esc(sub)}</div>`:''}${desc?`<div class="desc">${esc(desc)}</div>`:''}</div>
+    <div class="actions">
+      <button class="btn ghost icon" title="Move up" onclick="move('${it.id}',-1)">▲</button>
+      <button class="btn ghost icon" title="Move down" onclick="move('${it.id}',1)">▼</button>
+      <button class="btn ghost sm" onclick="openEdit('${it.id}')">Edit</button>
+      <button class="btn danger sm" onclick="del('${it.id}')">Delete</button>
+    </div></div>`;
+}
+function render(){
+  const list=$('list'),items=data[currentTab];
+  if(!items.length){list.innerHTML=`<div class="empty">No ${TITLE[currentTab].toLowerCase()} yet. Click “Add” to create one.</div>`;return;}
+  if(currentTab==='machines'){
+    let h='';
+    data.groups.forEach(g=>{const its=items.filter(m=>m.group===g.name);if(its.length)h+=`<div class="group-h">${esc(g.name)}</div><div class="rows">${its.map(rowHtml).join('')}</div>`;});
+    const orphans=items.filter(m=>!data.groups.some(g=>g.name===m.group));
+    if(orphans.length)h+=`<div class="group-h">No section (hidden on site)</div><div class="rows">${orphans.map(rowHtml).join('')}</div>`;
+    list.innerHTML=h;
+  }else list.innerHTML=`<div class="rows">${items.map(rowHtml).join('')}</div>`;
+}
+
+/* ---------- ordering ---------- */
+function move(id,dir){
+  const arr=data[currentTab],i=arr.findIndex(x=>x.id===id);if(i<0)return;
+  let j=i+dir;
+  if(currentTab==='machines'){const g=arr[i].group;while(j>=0&&j<arr.length&&arr[j].group!==g)j+=dir;}
+  if(j<0||j>=arr.length)return;
+  [arr[i],arr[j]]=[arr[j],arr[i]];setDirty(true);render();
+}
+
+/* ---------- add / edit ---------- */
+function openAdd(){editId=null;fillForm(null);$('modalTitle').textContent='Add '+LABEL[currentTab];$('modalBg').classList.add('open');$('f_name').focus();}
+function openEdit(id){editId=id;fillForm(data[currentTab].find(x=>x.id===id));$('modalTitle').textContent='Edit '+LABEL[currentTab];$('modalBg').classList.add('open');}
+function closeModal(id){$(id).classList.remove('open');}
+function showPrev(){
+  const pv=$('photoPrev');
+  pv.style.aspectRatio=currentTab==='team'?'4/5':'4/3';pv.style.maxWidth=currentTab==='team'?'280px':'';
+  const src=photoPending||imgSrc(photoVal);
+  if(src){pv.src=src;pv.dataset.path=photoVal;pv.style.display='block';pv.style.objectPosition=$('f_pos').value;pv.onerror=()=>{const r=remoteSrc(photoVal);if(r&&pv.src!==r)pv.src=r;};}
+  else{pv.removeAttribute('src');pv.style.display='none';}
+  $('rmPhoto').style.display=src?'inline-block':'none';
+}
+function fillForm(it){
+  const t=currentTab,isM=t==='machines',isT=t==='team',isP=t==='clubs'||t==='markers';
+  $('photoBlock').style.display='block';
+  $('posField').style.display=(isM||isT)?'block':'none';
+  $('machineFields').style.display=isM?'block':'none';
+  $('teamFields').style.display=isT?'block':'none';
+  $('prodFields').style.display=isP?'block':'none';
+  $('descField').style.display=isT?'none':'block';
+  $('nameLabel').textContent=isM?'Machine name (e.g. 2025 Haas VF-4SS)':'Name';
+  $('f_group').innerHTML=data.groups.map(g=>`<option>${esc(g.name)}</option>`).join('');
+  $('f_name').value=it?it.name:'';
+  $('f_desc').value=it?(it.desc||''):'';
+  $('f_group').value=it&&it.group?it.group:data.groups[0].name;
+  $('f_cat').value=it?(it.cat||''):'';
+  $('f_pos').value=it&&it.photoPos?it.photoPos:(isT?'center 25%':'center 50%');
+  if(!$('f_pos').value)$('f_pos').value='center 50%';
+  $('f_role').value=it?(it.role||''):'';$('f_email').value=it?(it.email||''):'';$('f_owner').checked=it?!!it.owner:false;
+  $('f_price').value=it?(it.price||''):'';$('f_qty').value=it&&it.qty!=null?it.qty:'';$('f_instock').checked=it?it.instock!==false:true;
+  photoVal=it?(it.photo||''):'';photoPending=null;$('f_photo').value='';
+  showPrev();
+}
+$('f_pos').addEventListener('change',()=>{$('photoPrev').style.objectPosition=$('f_pos').value;});
+$('f_photo').addEventListener('change',async e=>{
+  const file=e.target.files[0];if(!file)return;
+  try{photoPending=await resizeImage(file,currentTab==='team'?900:1600);showPrev();}catch(err){alert(err.message);}
+});
+function removePhoto(){photoVal='';photoPending=null;$('f_photo').value='';showPrev();}
+
+function saveItem(){
+  const t=currentTab,name=$('f_name').value.trim();
+  if(!name){alert('Name is required.');return;}
+  const old=editId?data[t].find(x=>x.id===editId):null;
+  let photo=photoVal;
+  if(photoPending){
+    if(old&&old.photo&&pending[old.photo])delete pending[old.photo];
+    const dir=t==='machines'?'machines':t==='team'?'team':'products';
+    photo=`assets/images/${dir}/${slug(name)}-${uid().slice(-5)}.jpg`;
+    pending[photo]=photoPending;
+  }else if(old&&old.photo&&!photo&&pending[old.photo])delete pending[old.photo];
+  let obj;
+  if(t==='machines')obj={id:editId||uid(),name,group:$('f_group').value,cat:$('f_cat').value.trim(),desc:$('f_desc').value.trim(),photo,photoPos:$('f_pos').value};
+  else if(t==='team')obj={id:editId||uid(),name,role:$('f_role').value.trim(),email:$('f_email').value.trim(),owner:$('f_owner').checked,photo,photoPos:$('f_pos').value};
+  else obj={id:editId||uid(),name,desc:$('f_desc').value.trim(),price:$('f_price').value.trim(),qty:$('f_qty').value===''?null:Number($('f_qty').value),instock:$('f_instock').checked,photo};
+  const arr=data[t];
+  if(old)arr[arr.indexOf(old)]=obj;else arr.push(obj);
+  closeModal('modalBg');setDirty(true);render();
+}
+function del(id){
+  const it=data[currentTab].find(x=>x.id===id);
+  if(!confirm(`Delete “${it.name}”?`))return;
+  if(it.photo&&pending[it.photo])delete pending[it.photo];
+  data[currentTab]=data[currentTab].filter(x=>x.id!==id);setDirty(true);render();
+}
+
+/* ---------- open / download ---------- */
+$('loadFile').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  if(dirty&&!confirm('Discard your unpublished changes and open this file?')){e.target.value='';return;}
+  const rd=new FileReader();
+  rd.onload=ev=>{
+    try{pending={};data=normalize(parseDataText(ev.target.result));source=file.name+' (from PC)';setDirty(Object.keys(pending).length>0);render();}
+    catch(err){alert('That file isn’t a valid data.js / data.json.\n'+err.message);}
+    e.target.value='';
+  };
+  rd.readAsText(file);
+});
+function downloadFile(name,href){const a=document.createElement('a');a.href=href;a.download=name;document.body.appendChild(a);a.click();a.remove();}
+function downloadAll(){
+  const url=URL.createObjectURL(new Blob([buildDataJs()],{type:'text/javascript'}));
+  downloadFile('data.js',url);setTimeout(()=>URL.revokeObjectURL(url),4000);
+  const paths=Object.keys(pending);
+  paths.forEach((p,i)=>setTimeout(()=>downloadFile(p.split('/').pop(),pending[p]),400*(i+1)));
+  if(paths.length)alert('Downloaded data.js and '+paths.length+' photo(s).\n\nWhen uploading to GitHub by hand, put each photo here:\n\n'+paths.join('\n')+'\n\nand replace data.js in the top folder.');
+}
+
+/* ---------- GitHub ---------- */
+async function gh(path,opts={}){
+  const s=settings();
+  const r=await fetch('https://api.github.com'+path,{...opts,headers:{
+    'Authorization':'Bearer '+s.token,'Accept':opts.accept||'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',
+    ...(opts.body?{'Content-Type':'application/json'}:{})}});
+  if(!r.ok){let m=r.status+' '+r.statusText;try{const j=await r.json();if(j.message)m+=' — '+j.message;}catch(e){}throw new Error(m);}
+  return opts.accept&&opts.accept.includes('raw')?r.text():r.json();
+}
+function repoPath(){const s=settings();return `/repos/${encodeURIComponent(s.owner)}/${encodeURIComponent(s.repo)}`;}
+
+function openSettings(){const s=settings();$('s_owner').value=s.owner;$('s_repo').value=s.repo||'truetech-cnc';$('s_branch').value=s.branch||'main';$('s_token').value=s.token;$('setMsg').textContent='';$('setBg').classList.add('open');}
+async function testSettings(){
+  lsSet('tt_owner',$('s_owner').value.trim());lsSet('tt_repo',$('s_repo').value.trim());
+  lsSet('tt_branch',$('s_branch').value.trim()||'main');lsSet('tt_token',$('s_token').value.trim());
+  const m=$('setMsg');m.style.color='var(--muted)';m.textContent='Testing…';
+  try{
+    const r=await gh(repoPath());
+    if(!r.permissions||!r.permissions.push)throw new Error('Token can read the repo but cannot write to it. Give it Contents: Read and write.');
+    m.style.color='#6fe08f';m.textContent='Connected to '+r.full_name+'. Publishing is ready.';
+    updateState();
+    if(!dirty&&confirm('Load the current live content from GitHub now?'))loadFromGitHub();
+  }catch(err){m.style.color='#ff7a7c';m.textContent='Failed: '+err.message;updateState();}
+}
+function clearSettings(){lsSet('tt_token',null);$('s_token').value='';$('setMsg').textContent='Token removed from this browser.';updateState();}
+
+async function loadFromGitHub(){
+  const s=settings();
+  const txt=await gh(`${repoPath()}/contents/data.js?ref=${encodeURIComponent(s.branch||'main')}`,{accept:'application/vnd.github.raw+json'});
+  pending={};data=normalize(parseDataText(txt));source='live site on GitHub';setDirty(Object.keys(pending).length>0);render();
+}
+
+function b64FromDataURL(u){return u.slice(u.indexOf(',')+1);}
+async function publish(){
+  if(!hasGH()){alert('Set up GitHub first (GitHub settings button), or use Download and upload by hand.');openSettings();return;}
+  if(!dirty&&!confirm('No changes since last load. Publish anyway?'))return;
+  const s=settings(),btn=$('pubBtn');btn.disabled=true;btn.textContent='Publishing…';
+  $('log').textContent='';
+  try{
+    const base=repoPath(),branch=encodeURIComponent(s.branch||'main');
+    log('Reading branch '+(s.branch||'main')+'…');
+    const ref=await gh(`${base}/git/ref/heads/${branch}`);
+    const headSha=ref.object.sha;
+    const head=await gh(`${base}/git/commits/${headSha}`);
+    const tree=[];
+    for(const [path,url] of Object.entries(pending)){
+      log('Uploading photo '+path+'…');
+      const b=await gh(`${base}/git/blobs`,{method:'POST',body:JSON.stringify({content:b64FromDataURL(url),encoding:'base64'})});
+      tree.push({path,mode:'100644',type:'blob',sha:b.sha});
+    }
+    log('Uploading data.js…');
+    const db=await gh(`${base}/git/blobs`,{method:'POST',body:JSON.stringify({content:buildDataJs(),encoding:'utf-8'})});
+    tree.push({path:'data.js',mode:'100644',type:'blob',sha:db.sha});
+    const nt=await gh(`${base}/git/trees`,{method:'POST',body:JSON.stringify({base_tree:head.tree.sha,tree})});
+    const msg='Update site content from admin ('+new Date().toLocaleString()+')';
+    const c=await gh(`${base}/git/commits`,{method:'POST',body:JSON.stringify({message:msg,tree:nt.sha,parents:[headSha]})});
+    await gh(`${base}/git/refs/heads/${branch}`,{method:'PATCH',body:JSON.stringify({sha:c.sha})});
+    log('Done. Commit '+c.sha.slice(0,7)+'. The website updates in about a minute.');
+    pending={};source='live site on GitHub';setDirty(false);render();
+  }catch(err){
+    log('FAILED: '+err.message);alert('Publish failed — nothing was changed on the website.\n\n'+err.message);
+  }finally{btn.disabled=false;btn.textContent='Publish to website';}
+}
+
+/* ---------- start ---------- */
+(async function init(){
+  if(hasGH()){
+    try{await loadFromGitHub();return;}
+    catch(err){log('Could not load from GitHub ('+err.message+'). Using the local copy.');}
+  }
+  if(window.TRUETECH_DATA){data=normalize(JSON.parse(JSON.stringify(window.TRUETECH_DATA)));source='data.js on this PC';setDirty(Object.keys(pending).length>0);}
+  else{source='';updateState();}
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+========================================================================
+  TRUETECH CNC WEBSITE - SETUP & UPDATING
+========================================================================
+
+FOLDER (keep this layout)
+------------------------------------------------------------------------
+truetech-cnc/
+|-- index.html        Home page (machines + team come from data.js)
+|-- store.html        Shop page (clubs + markers come from data.js)
+|-- data.js           ALL editable content: machines, team, products
+|-- admin.html        Your editor (open on your PC)
+|-- README.md / SETUP-GUIDE.txt
+|-- assets/
+    |-- logo.svg, logo-light.svg
+    |-- images/hero/      hero background
+    |-- images/machines/  machine photos
+    |-- images/products/  shop photos (admin creates these)
+    |-- images/parts/     "Our Work" gallery
+
+data.js replaces the old data.json. Delete data.json from the repo.
+
+It loads through a normal <script> tag, so pages work both on GitHub
+Pages and when you double-click them on your PC. No browser blocks it.
+
+------------------------------------------------------------------------
+ ONE-TIME: PUT THE SITE ON GITHUB
+------------------------------------------------------------------------
+1. github.com -> "+" -> New repository -> name: truetech-cnc -> Public.
+2. "uploading an existing file" -> drag in everything in this folder,
+   including the assets folder (admin.html is fine to include too;
+   there is nothing secret in it).
+3. Settings -> Pages -> Deploy from a branch -> main / (root) -> Save.
+   Live in ~1 min at https://YOUR-USERNAME.github.io/truetech-cnc/
+
+------------------------------------------------------------------------
+ ONE-TIME: LET THE ADMIN PUBLISH FOR YOU
+------------------------------------------------------------------------
+1. github.com -> your picture -> Settings -> Developer settings ->
+   Personal access tokens -> Fine-grained tokens -> Generate new token.
+   - Repository access: Only select repositories -> truetech-cnc
+   - Permissions -> Repository -> Contents: Read and write
+   - Expiration: up to 1 year (just make a new one when it expires)
+   Copy the token (starts with github_pat_).
+2. Open admin.html -> GitHub settings -> enter username, repo
+   (truetech-cnc), branch (main), and the token -> Save & test.
+
+The token is saved only in that browser on that PC. Do this once
+per PC/browser you edit from.
+
+------------------------------------------------------------------------
+ EVERY TIME: UPDATE THE SITE
+------------------------------------------------------------------------
+1. Double-click admin.html.
+   It loads the CURRENT live content from GitHub automatically.
+2. Add / edit / delete / reorder (arrow buttons) machines, team,
+   clubs, markers. Photos are shrunk to web size automatically.
+3. Click "Publish to website". Photos + data.js are pushed to GitHub
+   in one commit. The site updates in about a minute (a browser that
+   already had the page open may take a few minutes to show it).
+
+No token / not set up? Click "Download" instead. You get data.js
+plus any new photos, and a popup lists the exact folder for each
+photo. Upload them to GitHub by hand.
+
+------------------------------------------------------------------------
+ NOTES
+------------------------------------------------------------------------
+- Machine sections (Milling, Turning, Inspection & Tooling) and their
+  order are set in data.js "groups". The CNC Machines / Turning Centers
+  counts on the home page are calculated automatically from the list.
+- Team emails you enter are shown on the public site.
+- Old photos are not deleted from GitHub when you replace or remove an
+  item. They're harmless. Clean up in the repo if you like.
