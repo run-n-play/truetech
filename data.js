@@ -85,21 +85,27 @@ window.TRUETECH_DATA = {
       "name": "Jacob Duggan",
       "role": "Owner",
       "email": "jacobd@truetechcnc.com",
-      "owner": true
+      "owner": true,
+      "photo": "assets/images/team/jacob-duggan-9t1u3.jpg",
+      "photoPos": "center 40%"
     },
     {
       "id": "t4",
       "name": "McKenzie Duggan",
       "role": "Office Manager",
       "email": "mckenzie@truetechcnc.com",
-      "owner": false
+      "owner": false,
+      "photo": "assets/images/team/mckenzie-duggan-myb4c.jpg",
+      "photoPos": "center 50%"
     },
     {
       "id": "t2",
       "name": "Nathan Cantrell",
       "role": "Process Engineer",
       "email": "nate@truetechcnc.com",
-      "owner": false
+      "owner": false,
+      "photo": "assets/images/team/nathan-cantrell-kxd41.jpg",
+      "photoPos": "center 25%"
     },
     {
       "id": "t1",
