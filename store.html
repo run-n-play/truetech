@@ -18,29 +18,28 @@ img{max-width:100%;display:block}
 .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
 h1,h2,h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.5px;line-height:1.02}
 .eyebrow{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:3px;font-size:.85rem;color:var(--red)}
-/* header */
-header{position:sticky;top:0;z-index:100;background:rgba(4,5,7,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:74px}
-.logo{display:flex;align-items:center;gap:12px;font-family:'Barlow Condensed';font-weight:700;font-size:1.5rem;letter-spacing:1px}
-.logo svg{width:38px;height:38px}
-.logo b{color:#fff}.logo span{color:var(--muted);font-size:.7rem;letter-spacing:3px;display:block;margin-top:-4px}
-.menu{display:flex;gap:30px;align-items:center;font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:1rem}
-.menu a{color:#cfd3d7}.menu a:hover{color:#fff}
-.btn{display:inline-block;background:var(--red);color:#fff;font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:12px 26px;font-size:1rem;border:none;cursor:pointer;transition:.2s}
+/* header (matches index.html) */
+header{position:sticky;top:0;z-index:100;background:rgba(4,5,7,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:96px;position:relative}
+.logo{display:flex;align-items:center;height:74px}
+.logo img{height:74px;width:auto}
+.menu{display:flex;gap:30px;align-items:center;font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:1px;font-size:1.05rem}
+.menu a{color:#cfd3d7;transition:color .2s}
+.menu a:hover,.menu a.active{color:#fff}
+.btn{display:inline-block;background:var(--red);color:#fff;font-family:'Barlow Condensed';font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:12px 26px;font-size:1rem;border:none;cursor:pointer;transition:.2s;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
 .btn:hover{background:#e10004}
-/* banner */
-.banner{display:flex;align-items:stretch;background:linear-gradient(90deg,#0a0b0d,#050608);border:1px solid var(--line);overflow:hidden;min-height:118px;margin:44px 0}
-.banner-logo{display:flex;align-items:center;gap:16px;padding:20px 26px}
-.banner-logo svg{width:64px;height:64px}
-.banner-logo b{font-family:'Barlow Condensed';font-weight:700;font-size:2rem;letter-spacing:2px;color:#d7dadd;line-height:.9;display:block}
-.banner-logo span{font-family:'Barlow Condensed';font-weight:700;font-size:.95rem;letter-spacing:8px;color:#d7dadd;display:block;text-align:center}
-.banner-slash{flex:0 0 90px;position:relative}
+.hamb{display:none;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
+/* banner (matches index.html) */
+.banner{display:flex;align-items:stretch;background:linear-gradient(90deg,#0a0b0d,#050608);border:1px solid var(--line);overflow:hidden;min-height:120px;margin:44px 0}
+.banner-logo{display:flex;align-items:center;padding:18px 26px;flex:0 0 auto}
+.banner-logo img{height:74px;width:auto}
+.banner-slash{flex:0 0 90px;position:relative;align-self:stretch}
 .banner-slash::before,.banner-slash::after{content:"";position:absolute;top:-10%;height:120%;width:16px;transform:skewX(-20deg)}
 .banner-slash::before{left:34px;background:var(--gray)}
 .banner-slash::after{left:58px;background:var(--red)}
 .banner-title{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 34px;text-align:right}
-.banner-title h2{font-size:clamp(1.8rem,4.5vw,3.4rem);color:#e9ebee}
-.banner-title .tag{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:3px;font-size:.9rem;color:var(--muted);margin-top:8px}
+.banner-title h2{font-size:clamp(1.8rem,4.5vw,3.4rem);color:#e9ebee;letter-spacing:1px;line-height:.95}
+.banner-title .tag{font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;letter-spacing:3px;font-size:clamp(.7rem,1.6vw,.95rem);color:var(--muted);margin-top:8px}
 /* intro */
 .intro{max-width:720px;margin-bottom:10px}
 .intro p{color:var(--muted);font-size:1.05rem}
@@ -64,32 +63,33 @@ section{padding:40px 0}
 /* footer */
 footer{background:#020304;border-top:1px solid var(--line);padding:40px 0;margin-top:40px;text-align:center;color:var(--muted);font-size:.9rem}
 footer a{color:#cfd3d7}
-@media(max-width:680px){.banner{flex-direction:column;min-height:0}.banner-slash{display:none}.banner-logo{justify-content:center}.banner-title{text-align:center}.menu{display:none}}
+.credit{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);text-align:center;color:#5d6268;font-size:.8rem}
+.credit a{color:#8a9096;display:inline}
+.credit a:hover{color:#fff}
+
+@media(max-width:680px){.menu{display:none;position:absolute;top:96px;left:0;right:0;background:var(--panel);flex-direction:column;gap:0;padding:10px 0;border-bottom:1px solid var(--line)}.menu.open{display:flex}.menu a{padding:12px 24px;width:100%}.menu .btn{margin:10px 24px;width:auto;text-align:center}.hamb{display:block}.banner{flex-direction:column;min-height:0}.banner-slash{display:none}.banner-logo{justify-content:center;padding:22px 20px 6px}.banner-title{text-align:center;padding:6px 20px 22px}}
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="index.html">
-      <svg viewBox="0 0 100 100" fill="none"><path d="M8 12 H92 L74 40 H60 V64 H40 V40 H26 L8 12Z" fill="#e9ebee"/><path d="M35 70 H65 L58 82 H42 L35 70Z" fill="#e9ebee"/></svg>
-      <div><b>TRUETECH</b><span>CNC</span></div>
-    </a>
-    <nav class="menu">
-      <a href="index.html">Home</a>
+    <a class="logo" href="index.html"><img src="assets/logo-light.svg" alt="TrueTech CNC"></a>
+    <nav class="menu" id="menu">
       <a href="index.html#capabilities">Capabilities</a>
       <a href="index.html#equipment">Equipment</a>
+      <a href="index.html#work">Our Work</a>
+      <a href="index.html#team">Team</a>
+      <a href="store.html" class="active">Shop</a>
       <a href="index.html#quote" class="btn">Request a Quote</a>
     </nav>
+    <button class="hamb" id="hamb" aria-label="Menu">&#9776;</button>
   </div>
 </header>
 
 <div class="wrap">
   <div class="banner">
-    <div class="banner-logo">
-      <svg viewBox="0 0 100 100" fill="none"><path d="M8 12 H92 L74 40 H60 V64 H40 V40 H26 L8 12Z" fill="#d7dadd"/><path d="M35 70 H65 L58 82 H42 L35 70Z" fill="#d7dadd"/></svg>
-      <div><b>TRUETECH</b><span>CNC</span></div>
-    </div>
+    <div class="banner-logo"><img src="assets/logo-light.svg" alt="TrueTech CNC"></div>
     <div class="banner-slash"></div>
     <div class="banner-title">
       <h2>The Shop</h2>
@@ -115,10 +115,14 @@ footer a{color:#cfd3d7}
   <div class="wrap">
     <p>© 2026 TrueTech CNC · 424 McGee Rd, Anderson, SC · <a href="tel:8647720583">(864) 772-0583</a></p>
     <p style="margin-top:6px">Interested in a custom piece? <a href="index.html#quote" style="color:var(--red)">Request a quote</a>.</p>
+    <div class="credit">Website designed &amp; maintained by <a href="https://dawnintegrations.com" target="_blank" rel="noopener">Dawn Integrations LLC</a> &middot; <a href="mailto:russell@dawnintegrations.com">russell@dawnintegrations.com</a></div>
   </div>
 </footer>
 
 <script>
+const hamb=document.getElementById('hamb'),menu=document.getElementById('menu');
+hamb.addEventListener('click',()=>menu.classList.toggle('open'));
+
 const INQUIRY_EMAIL='jacobd@truetechcnc.com';
 
 function card(p){

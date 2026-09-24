@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TrueTech CNC — Content Admin</title>
+<meta name="robots" content="noindex,nofollow">
 <style>
 :root{
   --black:#040507;--panel:#0c0e11;--panel2:#14171c;--gray:#4a4e4f;
@@ -13,8 +14,8 @@
 body{background:var(--black);color:#e9ebee;line-height:1.5;padding-bottom:60px}
 header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;position:sticky;top:0;z-index:20}
 .brand{display:flex;align-items:center;gap:12px}
-.brand svg{width:38px;height:38px}
-.brand b{font-size:1.25rem;letter-spacing:1px}.brand span{color:var(--muted);font-size:.72rem;letter-spacing:2px;display:block}
+.brand img{height:56px;width:auto;display:block}
+.brand .tagline{color:var(--muted);font-size:.72rem;font-weight:700;letter-spacing:2px;border-left:1px solid var(--line);padding-left:12px}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .wrap{max-width:1080px;margin:0 auto;padding:24px}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:22px;flex-wrap:wrap}
@@ -75,8 +76,8 @@ header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid
 
 <header>
   <div class="brand">
-    <svg viewBox="0 0 100 100" fill="none"><path d="M8 12 H92 L74 40 H60 V64 H40 V40 H26 L8 12Z" fill="#d7dadd"/><path d="M35 70 H65 L58 82 H42 L35 70Z" fill="#d7dadd"/></svg>
-    <div><b>TRUETECH</b><span>CONTENT ADMIN</span></div>
+    <img src="assets/logo-light.svg" alt="TrueTech CNC" onerror="if(!this.dataset.r){this.dataset.r=1;this.src='https://truetechcnc.com/assets/logo-light.svg';}">
+    <span class="tagline">CONTENT ADMIN</span>
   </div>
   <div class="toolbar">
     <span class="pill" id="state">Not loaded</span>
@@ -84,6 +85,7 @@ header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid
     <button class="btn ghost sm" onclick="document.getElementById('loadFile').click()" title="Open a data.js (or old data.json) from your PC">Open file…</button>
     <button class="btn ghost sm" onclick="openSettings()">GitHub settings</button>
     <button class="btn blue" onclick="downloadAll()" title="Save data.js (and any new photos) to your PC">Download</button>
+    <a class="btn ghost sm" href="https://truetechcnc.com" target="_blank" rel="noopener" style="text-decoration:none">View site ↗</a>
     <button class="btn green" id="pubBtn" onclick="publish()">Publish to website</button>
   </div>
 </header>
@@ -169,8 +171,8 @@ header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid
     <h2>GitHub settings</h2>
     <div class="hint" style="margin-bottom:16px">Stored only in this browser on this PC. Needed for <b>Publish to website</b>. The token needs <b>Contents: Read and write</b> on the site repo only.</div>
     <div class="row2">
-      <div class="field"><label>GitHub username / org</label><input id="s_owner" type="text" placeholder="your-username"></div>
-      <div class="field"><label>Repository</label><input id="s_repo" type="text" placeholder="truetech-cnc"></div>
+      <div class="field"><label>GitHub username / org</label><input id="s_owner" type="text" placeholder="run-n-play"></div>
+      <div class="field"><label>Repository</label><input id="s_repo" type="text" placeholder="truetech"></div>
     </div>
     <div class="field"><label>Branch</label><input id="s_branch" type="text" placeholder="main"></div>
     <div class="field"><label>Access token</label><input id="s_token" type="password" placeholder="github_pat_…" autocomplete="off"></div>
@@ -203,7 +205,8 @@ function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2
 function slug(s){return (s||'item').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)||'item';}
 function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
 function lsSet(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
-function settings(){return{owner:lsGet('tt_owner')||'',repo:lsGet('tt_repo')||'',branch:lsGet('tt_branch')||'main',token:lsGet('tt_token')||''};}
+const GH_DEFAULT={owner:'run-n-play',repo:'truetech',branch:'main'};
+function settings(){return{owner:lsGet('tt_owner')||GH_DEFAULT.owner,repo:lsGet('tt_repo')||GH_DEFAULT.repo,branch:lsGet('tt_branch')||GH_DEFAULT.branch,token:lsGet('tt_token')||''};}
 function hasGH(){const s=settings();return !!(s.owner&&s.repo&&s.token);}
 function log(m){const l=$('log');l.style.display='block';l.textContent+=m+'\n';l.scrollTop=l.scrollHeight;}
 
@@ -414,7 +417,7 @@ async function gh(path,opts={}){
 }
 function repoPath(){const s=settings();return `/repos/${encodeURIComponent(s.owner)}/${encodeURIComponent(s.repo)}`;}
 
-function openSettings(){const s=settings();$('s_owner').value=s.owner;$('s_repo').value=s.repo||'truetech-cnc';$('s_branch').value=s.branch||'main';$('s_token').value=s.token;$('setMsg').textContent='';$('setBg').classList.add('open');}
+function openSettings(){const s=settings();$('s_owner').value=s.owner;$('s_repo').value=s.repo;$('s_branch').value=s.branch||'main';$('s_token').value=s.token;$('setMsg').textContent='';$('setBg').classList.add('open');}
 async function testSettings(){
   lsSet('tt_owner',$('s_owner').value.trim());lsSet('tt_repo',$('s_repo').value.trim());
   lsSet('tt_branch',$('s_branch').value.trim()||'main');lsSet('tt_token',$('s_token').value.trim());
