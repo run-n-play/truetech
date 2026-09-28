@@ -112,7 +112,9 @@ window.TRUETECH_DATA = {
       "name": "Kendall Hines",
       "role": "Process Engineer",
       "email": "kendall@truetechcnc.com",
-      "owner": false
+      "owner": false,
+      "photo": "assets/images/team/kendall-hines-zrlnv.jpg",
+      "photoPos": "center 25%"
     },
     {
       "id": "t5",
