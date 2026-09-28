@@ -40,6 +40,9 @@ header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid
 .rows{display:flex;flex-direction:column;gap:10px}
 .row{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;align-items:center;gap:14px}
 .row .thumb{width:96px;height:72px;object-fit:cover;border-radius:5px;background:var(--panel2);flex:0 0 96px;display:flex;align-items:center;justify-content:center;color:#3d4247;font-size:.7rem;text-align:center}
+.row .thumb.icon{color:var(--red);padding:18px 30px}.row .thumb.icon svg{width:100%;height:100%}
+.ic-prev{width:44px;height:44px;color:var(--red);flex:0 0 44px}.ic-prev svg{width:100%;height:100%}
+.tag.feat{background:rgba(191,0,3,.2);color:#ff8a8c}
 .row .info{flex:1;min-width:0}
 .row h3{font-size:1.05rem}
 .row .sub{color:var(--red);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
@@ -95,6 +98,8 @@ header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid
 
   <div class="tabs">
     <button class="tab active" data-tab="machines" onclick="switchTab('machines')">Machines</button>
+    <button class="tab" data-tab="capabilities" onclick="switchTab('capabilities')">Capabilities</button>
+    <button class="tab" data-tab="parts" onclick="switchTab('parts')">Parts Made</button>
     <button class="tab" data-tab="team" onclick="switchTab('team')">Team</button>
     <button class="tab" data-tab="clubs" onclick="switchTab('clubs')">Golf Clubs</button>
     <button class="tab" data-tab="markers" onclick="switchTab('markers')">Markers</button>
@@ -140,6 +145,11 @@ header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid
     <div id="machineFields">
       <div class="field"><label>Section</label><select id="f_group"></select></div>
       <div class="field"><label>Subtitle</label><input id="f_cat" type="text" placeholder="e.g. Milling · 4th Axis"><small>Small red line above the name.</small></div>
+    </div>
+
+    <div id="capFields">
+      <div class="field"><label>Icon</label><div style="display:flex;gap:12px;align-items:center"><div class="ic-prev" id="icPrev"></div><select id="f_icon"></select></div></div>
+      <div class="field checkline"><input id="f_featured" type="checkbox"><label style="margin:0">Featured (large panel at the top of the section)</label></div>
     </div>
 
     <div id="teamFields">
@@ -190,13 +200,20 @@ header{background:linear-gradient(90deg,#0a0b0d,#050608);border-bottom:1px solid
 <script>
 /* ---------- state ---------- */
 const DEFAULT_GROUPS=[{name:'Milling',cnc:true},{name:'Turning',cnc:true},{name:'Inspection & Tooling',cnc:false}];
-let data={groups:DEFAULT_GROUPS.slice(),machines:[],team:[],clubs:[],markers:[]};
+const ICONS={"cube": "<path d=\"M12 2 3 7v10l9 5 9-5V7z\"/><path d=\"M3 7l9 5 9-5M12 12v10\"/>", "layers": "<path d=\"m12 2 10 5-10 5L2 7z\"/><path d=\"m2 12 10 5 10-5M2 17l10 5 10-5\"/>", "compass": "<circle cx=\"12\" cy=\"5\" r=\"2\"/><path d=\"M12 7 5 21M12 7l7 14M7.5 15h9\"/>", "code": "<path d=\"m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16\"/>", "pin": "<path d=\"M12 22s7-7.5 7-13a7 7 0 0 0-14 0c0 5.5 7 13 7 13z\"/><circle cx=\"12\" cy=\"9\" r=\"2.5\"/>", "spray": "<rect x=\"4\" y=\"9\" width=\"8\" height=\"13\" rx=\"1\"/><path d=\"M6 9V6h4v3M14 6h1M17 4h1M17 8h1M20 6h1M20 2h1M20 10h1\"/>", "flame": "<path d=\"M12 22c4 0 7-3 7-7 0-5-5-7-5-13-3 2-4 5-4 8-1-1-2-2-2-4-2 2-3 5-3 9 0 4 3 7 7 7z\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 1v5M12 18v5M1 12h5M18 12h5\"/>", "gear": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1 7 17M17 7l2.1-2.1\"/>", "ruler": "<path d=\"M3 17 17 3l4 4L7 21z\"/><path d=\"m7 13 2 2M10 10l2 2M13 7l2 2\"/>", "check": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m8 12 3 3 5-6\"/>", "truck": "<path d=\"M2 6h11v10H2zM13 10h4l4 4v2h-8z\"/><circle cx=\"6\" cy=\"18\" r=\"2\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/>", "bolt": "<path d=\"M13 2 4 14h7l-1 8 9-12h-7z\"/>"};
+const ICON_LABELS={"cube": "Cube (prototype)", "layers": "Layers (production)", "compass": "Compass (design)", "code": "Code (programming)", "pin": "Map pin (on-site)", "spray": "Spray (finishing)", "flame": "Flame (welding)", "target": "Crosshair (laser)", "gear": "Gear", "ruler": "Ruler", "check": "Check (inspection)", "truck": "Truck (shipping)", "bolt": "Lightning bolt"};
+const DEFAULT_CAPS=[{"id": "c1", "name": "Prototyping", "desc": "Fast, accurate prototypes to prove out your design before committing to a full run.", "icon": "cube", "featured": true}, {"id": "c2", "name": "Production Runs", "desc": "Small and large production quantities held to tight tolerances with repeatable quality.", "icon": "layers", "featured": true}, {"id": "c3", "name": "CAD Design", "desc": "In-house design support to refine your part for manufacturability, performance, and cost.", "icon": "compass", "featured": false}, {"id": "c4", "name": "Contract Programming", "desc": "Expert CAM programming delivered on contract for milling and turning applications.", "icon": "code", "featured": false}, {"id": "c5", "name": "On-Site Assistance", "desc": "On-site contract support to keep your team moving and your machines producing.", "icon": "pin", "featured": false}, {"id": "c6", "name": "Bead Blasting", "desc": "Consistent surface finishing and cleaning for a clean, uniform cosmetic result.", "icon": "spray", "featured": false}, {"id": "c7", "name": "Welding", "desc": "MIG and TIG welding for fabrication, repair, and finished weldments.", "icon": "flame", "featured": false}, {"id": "c8", "name": "Laser Engraving", "desc": "Laser and deep engraving for part marking, serialization, and custom detail work.", "icon": "target", "featured": false}];
+const DEFAULT_PARTS=[{"id": "p1", "name": "Threaded Stainless Components", "photo": "assets/images/parts/threaded-stainless.jpg", "photoPos": "center 50%"}, {"id": "p2", "name": "Production Turned Rings", "photo": "assets/images/parts/turned-rings-batch.jpg", "photoPos": "center 50%"}, {"id": "p3", "name": "Milled Aluminum Housings", "photo": "assets/images/parts/aluminum-housings.jpg", "photoPos": "center 50%"}, {"id": "p4", "name": "Precision Shift Forks", "photo": "assets/images/parts/shift-forks.jpg", "photoPos": "center 50%"}, {"id": "p5", "name": "Machined Brackets", "photo": "assets/images/parts/machined-brackets.jpg", "photoPos": "center 50%"}, {"id": "p6", "name": "Turned & Polished Shafts", "photo": "assets/images/parts/polished-shafts.jpg", "photoPos": "center 50%"}, {"id": "p7", "name": "Shafts & Threaded Bases", "photo": "assets/images/parts/shafts-and-bases.jpg", "photoPos": "center 50%"}];
+const svg=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICONS[k]||ICONS.gear}</svg>`;
+const clone=o=>JSON.parse(JSON.stringify(o));
+let data={groups:DEFAULT_GROUPS.slice(),machines:[],capabilities:clone(DEFAULT_CAPS),parts:clone(DEFAULT_PARTS),team:[],clubs:[],markers:[]};
 let pending={};            // repo path -> dataURL of new photos not yet published
 let dirty=false, source='';
 let currentTab='machines', editId=null, photoVal='', photoPending=null;
 
-const LABEL={machines:'Machine',team:'Person',clubs:'Golf Club',markers:'Marker'};
-const TITLE={machines:'Machines',team:'Team',clubs:'Golf Clubs',markers:'Markers'};
+const LABEL={machines:'Machine',capabilities:'Capability',parts:'Part Photo',team:'Person',clubs:'Golf Club',markers:'Marker'};
+const TITLE={machines:'Machines',capabilities:'Capabilities',parts:'Parts Made',team:'Team',clubs:'Golf Clubs',markers:'Markers'};
+const LISTS=['machines','capabilities','parts','team','clubs','markers'];
 const $=id=>document.getElementById(id);
 
 /* ---------- helpers ---------- */
@@ -223,15 +240,18 @@ function updateState(){
 window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue='';}});
 
 function normalize(d){
-  const out={
+  const out={...d,
     groups:Array.isArray(d.groups)&&d.groups.length?d.groups:DEFAULT_GROUPS.slice(),
-    machines:d.machines||[],team:d.team||[],clubs:d.clubs||[],markers:d.markers||[]
+    machines:d.machines||[],team:d.team||[],clubs:d.clubs||[],markers:d.markers||[],
+    // sites published before these tabs existed: start from what the page already shows
+    capabilities:Array.isArray(d.capabilities)?d.capabilities:clone(DEFAULT_CAPS),
+    parts:Array.isArray(d.parts)?d.parts:clone(DEFAULT_PARTS)
   };
   // old data.json stored product photos inline — move them to files so data.js stays small
   ['clubs','markers'].forEach(k=>out[k].forEach(p=>{
     if(p.photo&&p.photo.startsWith('data:')){const path=`assets/images/products/${slug(p.name)}-${uid().slice(-5)}.jpg`;pending[path]=p.photo;p.photo=path;}
   }));
-  ['machines','team','clubs','markers'].forEach(k=>out[k].forEach(it=>{if(!it.id)it.id=uid();}));
+  LISTS.forEach(k=>out[k].forEach(it=>{if(!it.id)it.id=uid();}));
   return out;
 }
 function parseDataText(txt){
@@ -280,17 +300,20 @@ function switchTab(t){
   $('tabTitle').textContent=TITLE[t];$('addLabel').textContent=LABEL[t];render();
 }
 function thumb(it){
+  if(currentTab==='capabilities')return `<div class="thumb icon">${svg(it.icon)}</div>`;
   return it.photo?`<img class="thumb" src="${esc(imgSrc(it.photo))}" data-path="${esc(it.photo)}" style="object-position:${esc(it.photoPos||'center')}" onerror="imgFallback(this)" alt="">`:'<div class="thumb">no photo</div>';
 }
 function rowHtml(it){
   const isNew=it.photo&&pending[it.photo]?'<span class="tag new">new photo</span>':'';
   let sub='',desc='';
   if(currentTab==='machines'){sub=it.cat||it.group;desc=it.desc;}
+  else if(currentTab==='capabilities'){desc=it.desc;}
+  else if(currentTab==='parts'){}
   else if(currentTab==='team'){sub=it.role+(it.owner?' ★':'');desc=it.email;}
   else{sub=it.price||'';desc=it.desc;}
   const stock=(currentTab==='clubs'||currentTab==='markers')?(it.instock!==false?`<span class="tag in">In stock${it.qty?' · '+it.qty:''}</span>`:'<span class="tag out">Sold out</span>'):'';
   return `<div class="row">${thumb(it)}
-    <div class="info"><h3>${esc(it.name)}${stock}${isNew}</h3>${sub?`<div class="sub">${esc(sub)}</div>`:''}${desc?`<div class="desc">${esc(desc)}</div>`:''}</div>
+    <div class="info"><h3>${esc(it.name)}${stock}${isNew}${currentTab==='capabilities'&&it.featured?'<span class="tag feat">Featured</span>':''}</h3>${sub?`<div class="sub">${esc(sub)}</div>`:''}${desc?`<div class="desc">${esc(desc)}</div>`:''}</div>
     <div class="actions">
       <button class="btn ghost icon" title="Move up" onclick="move('${it.id}',-1)">▲</button>
       <button class="btn ghost icon" title="Move down" onclick="move('${it.id}',1)">▼</button>
@@ -332,14 +355,17 @@ function showPrev(){
   $('rmPhoto').style.display=src?'inline-block':'none';
 }
 function fillForm(it){
-  const t=currentTab,isM=t==='machines',isT=t==='team',isP=t==='clubs'||t==='markers';
-  $('photoBlock').style.display='block';
-  $('posField').style.display=(isM||isT)?'block':'none';
+  const t=currentTab,isM=t==='machines',isT=t==='team',isP=t==='clubs'||t==='markers',isC=t==='capabilities',isPa=t==='parts';
+  $('photoBlock').style.display=isC?'none':'block';
+  $('posField').style.display=(isM||isT||isPa)?'block':'none';
+  $('capFields').style.display=isC?'block':'none';
   $('machineFields').style.display=isM?'block':'none';
   $('teamFields').style.display=isT?'block':'none';
   $('prodFields').style.display=isP?'block':'none';
-  $('descField').style.display=isT?'none':'block';
-  $('nameLabel').textContent=isM?'Machine name (e.g. 2025 Haas VF-4SS)':'Name';
+  $('descField').style.display=(isT||isPa)?'none':'block';
+  $('nameLabel').textContent=isM?'Machine name (e.g. 2025 Haas VF-4SS)':isC?'Service name (e.g. Prototyping)':isPa?'Caption (shown on hover)':'Name';
+  $('f_icon').value=it&&it.icon&&ICONS[it.icon]?it.icon:'gear';$('icPrev').innerHTML=svg($('f_icon').value);
+  $('f_featured').checked=it?!!it.featured:false;
   $('f_group').innerHTML=data.groups.map(g=>`<option>${esc(g.name)}</option>`).join('');
   $('f_name').value=it?it.name:'';
   $('f_desc').value=it?(it.desc||''):'';
@@ -352,6 +378,8 @@ function fillForm(it){
   photoVal=it?(it.photo||''):'';photoPending=null;$('f_photo').value='';
   showPrev();
 }
+$('f_icon').innerHTML=Object.keys(ICONS).map(k=>`<option value="${k}">${ICON_LABELS[k]||k}</option>`).join('');
+$('f_icon').addEventListener('change',()=>{$('icPrev').innerHTML=svg($('f_icon').value);});
 $('f_pos').addEventListener('change',()=>{$('photoPrev').style.objectPosition=$('f_pos').value;});
 $('f_photo').addEventListener('change',async e=>{
   const file=e.target.files[0];if(!file)return;
@@ -362,16 +390,19 @@ function removePhoto(){photoVal='';photoPending=null;$('f_photo').value='';showP
 function saveItem(){
   const t=currentTab,name=$('f_name').value.trim();
   if(!name){alert('Name is required.');return;}
+  if(t==='parts'&&!photoVal&&!photoPending){alert('Add a photo for this part.');return;}
   const old=editId?data[t].find(x=>x.id===editId):null;
   let photo=photoVal;
   if(photoPending){
     if(old&&old.photo&&pending[old.photo])delete pending[old.photo];
-    const dir=t==='machines'?'machines':t==='team'?'team':'products';
+    const dir=t==='machines'?'machines':t==='team'?'team':t==='parts'?'parts':'products';
     photo=`assets/images/${dir}/${slug(name)}-${uid().slice(-5)}.jpg`;
     pending[photo]=photoPending;
   }else if(old&&old.photo&&!photo&&pending[old.photo])delete pending[old.photo];
   let obj;
   if(t==='machines')obj={id:editId||uid(),name,group:$('f_group').value,cat:$('f_cat').value.trim(),desc:$('f_desc').value.trim(),photo,photoPos:$('f_pos').value};
+  else if(t==='capabilities')obj={id:editId||uid(),name,desc:$('f_desc').value.trim(),icon:$('f_icon').value,featured:$('f_featured').checked};
+  else if(t==='parts')obj={id:editId||uid(),name,photo,photoPos:$('f_pos').value};
   else if(t==='team')obj={id:editId||uid(),name,role:$('f_role').value.trim(),email:$('f_email').value.trim(),owner:$('f_owner').checked,photo,photoPos:$('f_pos').value};
   else obj={id:editId||uid(),name,desc:$('f_desc').value.trim(),price:$('f_price').value.trim(),qty:$('f_qty').value===''?null:Number($('f_qty').value),instock:$('f_instock').checked,photo};
   const arr=data[t];
