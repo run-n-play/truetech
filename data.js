@@ -26,7 +26,7 @@ window.TRUETECH_DATA = {
     },
     {
       "id": "m2",
-      "name": "2025 Smart SV2",
+      "name": "2023 Smart SV2",
       "group": "Milling",
       "cat": "Milling · 4th Axis",
       "desc": "Vertical machining center with 4th-axis rotary for precision milled parts.",
@@ -53,7 +53,7 @@ window.TRUETECH_DATA = {
     },
     {
       "id": "m5",
-      "name": "2024 Hyundai WIA SE2200A",
+      "name": "2021 Hyundai WIA SE2200A",
       "group": "Turning",
       "cat": "Turning",
       "desc": "CNC turning center for precision cylindrical parts.",
@@ -113,8 +113,8 @@ window.TRUETECH_DATA = {
       "role": "Process Engineer",
       "email": "kendall@truetechcnc.com",
       "owner": false,
-      "photo": "assets/images/team/kendall-hines-cy03j.jpg",
-      "photoPos": "center 25%"
+      "photo": "assets/images/team/kendall-hines-ifx8l.jpg",
+      "photoPos": "center 50%"
     },
     {
       "id": "t5",
@@ -122,7 +122,7 @@ window.TRUETECH_DATA = {
       "role": "Shipping / Receiving",
       "email": "",
       "owner": false,
-      "photo": "assets/images/team/ashley-duggan-6wtss.jpg",
+      "photo": "assets/images/team/ashley-duggan-vlmln.jpg",
       "photoPos": "center 25%"
     },
     {
